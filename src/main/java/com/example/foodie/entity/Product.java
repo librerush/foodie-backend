@@ -24,24 +24,31 @@ public class Product {
     @Column(length = 2048)
     private String description;
 
+    @Column(length = 1024)
+    private String image;
+
     public Product() {
     }
 
-    public Product(String name, double price, Category category, Brand brand, String description) {
+    public Product(String name, double price, Category category, Brand brand,
+                   String description, String image) {
         this.name = name;
         this.price = price;
         this.category = category;
         this.brand = brand;
         this.description = description;
+        this.image = image;
     }
 
-    public Product(long id, String name, double price, Category category, Brand brand, String description) {
+    public Product(long id, String name, double price, Category category,
+                   Brand brand, String description, String image) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
         this.brand = brand;
         this.description = description;
+        this.image = image;
     }
 
     public long getId() {
@@ -92,6 +99,14 @@ public class Product {
         this.description = description;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -101,6 +116,7 @@ public class Product {
                 ", category=" + category +
                 ", brand=" + brand +
                 ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
                 '}';
     }
 }
