@@ -1,5 +1,7 @@
 package com.example.foodie.entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,12 +16,18 @@ public class Product {
     private double price;
 
     @JoinColumn(name = "category_id")
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Category category;
 
     @JoinColumn(name = "brand_id")
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Brand brand;
+
+    @ManyToOne
+    @JoinColumn()
+    private Order order;
 
     @Column(length = 2048)
     private String description;
@@ -30,19 +38,8 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, double price, Category category, Brand brand,
-                   String description, String image) {
-        this.name = name;
-        this.price = price;
-        this.category = category;
-        this.brand = brand;
-        this.description = description;
-        this.image = image;
-    }
-
-    public Product(long id, String name, double price, Category category,
+    public Product(String name, double price, Category category,
                    Brand brand, String description, String image) {
-        this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
@@ -105,6 +102,14 @@ public class Product {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override

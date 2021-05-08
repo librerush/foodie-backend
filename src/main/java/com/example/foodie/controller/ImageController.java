@@ -1,5 +1,6 @@
 package com.example.foodie.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ public class ImageController {
 
     @GetMapping(value = "/{path}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @Operation(summary = "Get an image by 'path'")
     public @ResponseBody byte[] getImageAsResource(@PathVariable String path) {
         byte[] bytes = new byte[0];
         String dataPath = IMAGE_STORAGE_PATH + path;
