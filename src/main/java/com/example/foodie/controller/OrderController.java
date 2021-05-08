@@ -19,7 +19,7 @@ public class OrderController {
     private OrderRepository orderRepository;
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get order by 'id'")
+    @Operation(summary = "Get an order by 'id'")
     Optional<Order> getById(@Parameter(description = "id of order")
                             @PathVariable Long id) {
         return orderRepository.findById(id);
