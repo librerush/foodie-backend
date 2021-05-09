@@ -17,6 +17,10 @@ public class Order {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
     private List<Product> products;
 
+    @ManyToOne
+    @JoinColumn
+    private User user;
+
     public Order() {
     }
 
