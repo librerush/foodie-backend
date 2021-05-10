@@ -5,3 +5,5 @@
 - Spring Boot 2.4.5
 - Swagger UI
 - PostgreSQL
+
+Swagger UI: http://localhost:8080/swagger-ui.html

@@ -10,5 +10,7 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category, Long>,
         org.springframework.data.repository.Repository<Category, Long> {
 
+    boolean existsByNameLike(String name);
+
     List<Category> findCategoryByName(String name);
 }

@@ -1,10 +1,9 @@
 package com.example.foodie.entity;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name = "user", schema = "foodie_scheme")
+@Table(name = "users", schema = "foodie_scheme")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -15,9 +14,6 @@ public class User {
     private String email;
 
     private String password;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<Order> orders;
 
     public User() {
     }
@@ -60,14 +56,6 @@ public class User {
         this.password = password;
     }
 
-    public Set<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -75,7 +63,6 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", orders=" + orders +
                 '}';
     }
 }

@@ -1,8 +1,11 @@
 package com.example.foodie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "product", schema = "foodie_scheme")
@@ -25,9 +28,9 @@ public class Product {
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Brand brand;
 
-    @ManyToOne
-    @JoinColumn()
-    private Order order;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
+    private List<Order> orders = new ArrayList<>();
 
     @Column(length = 2048)
     private String description;
@@ -104,12 +107,12 @@ public class Product {
         this.image = image;
     }
 
-    public Order getOrder() {
-        return order;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

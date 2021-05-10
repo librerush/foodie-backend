@@ -30,7 +30,7 @@ public class ProductController {
     @GetMapping
     @Operation(summary = "Get all products")
     List<Product> findAll() {
-        return (List<Product>) productRepository.findAll();
+        return productRepository.findAll();
     }
 
     @GetMapping("/{id}")
@@ -70,7 +70,7 @@ public class ProductController {
     }
 
     @PostMapping
-    @Operation(summary = "Please, ignore 'order' field when sending JSON")
+    @Operation(summary = "Create a new product")
     Product create(@RequestBody Product product) {
         brandRepository.save(product.getBrand());
         categoryRepository.save(product.getCategory());
