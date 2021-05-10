@@ -34,6 +34,5 @@ CREATE TABLE orders (
 
 CREATE TABLE orders_product (
     order_id int references orders(id),
-    product_id int references product(id),
-    primary key(order_id, product_id)
+    product_id int references product(id)
 );

@@ -29,11 +29,7 @@ public class UserController {
         List<Order> orders = new ArrayList<>();
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
-            return orderRepository
-                    .findOrderByUser(user.get())
-                    /*.stream()
-                    .peek(order ->
-                            order.getProducts().forEach(product -> product.setOrders(null))).collect(Collectors.toList())*/;
+            return orderRepository.findOrderByUser(user.get());
         }
         return orders;
     }
