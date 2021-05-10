@@ -5,10 +5,12 @@ import com.example.foodie.repository.BrandRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +29,12 @@ public class BrandController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a brand by 'id'")
-    Optional<Brand> getById(@Parameter(description = "id of brand")
-                            @PathVariable Long id) {
-        return brandRepository.findById(id);
+    Brand getById(@Parameter(description = "id of brand")
+                  @PathVariable Long id) {
+        Optional<Brand> brandOptional = brandRepository.findById(id);
+        if (brandOptional.isPresent()) {
+            return brandOptional.get();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No brand with id: " + id);
     }
 }

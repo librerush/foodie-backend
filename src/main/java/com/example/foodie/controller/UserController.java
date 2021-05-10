@@ -7,7 +7,9 @@ import com.example.foodie.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,16 +50,24 @@ public class UserController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a user by 'id'")
-    Optional<User> getById(@Parameter(description = "id of user")
-                           @PathVariable("id") Long id) {
-        return userRepository.findById(id);
+    User getById(@Parameter(description = "id of user")
+                 @PathVariable("id") Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user with id: " + id);
     }
 
     @GetMapping
     @Operation(summary = "Get a user by 'email'")
-    Optional<User> getByEmailAndPassword(@Parameter(description = "email of user")
-                                         @RequestParam("email") String email) {
-        return userRepository.findUserByEmail(email);
+    User getByEmailAndPassword(@Parameter(description = "email of user")
+                               @RequestParam("email") String email) {
+        Optional<User> userOptional = userRepository.findUserByEmail(email);
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user with email: " + email);
     }
 
     @PostMapping

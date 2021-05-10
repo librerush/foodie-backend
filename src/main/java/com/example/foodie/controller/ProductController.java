@@ -9,7 +9,9 @@ import com.example.foodie.repository.ProductRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +37,13 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a product by 'id'")
-    Optional<Product> getById(@Parameter(description = "id of product")
-                              @PathVariable Long id) {
-        return productRepository.findById(id);
+    Product getById(@Parameter(description = "id of product")
+                    @PathVariable Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isPresent()) {
+            return productOptional.get();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No product with id: " + id);
     }
 
     @GetMapping("/search/{name}")

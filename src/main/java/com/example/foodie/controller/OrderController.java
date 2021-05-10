@@ -8,7 +8,9 @@ import com.example.foodie.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,9 +26,13 @@ public class OrderController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get an order by 'id'")
-    Optional<Order> getById(@Parameter(description = "id of order")
-                            @PathVariable Long id) {
-        return orderRepository.findById(id);
+    Order getById(@Parameter(description = "id of order")
+                  @PathVariable Long id) {
+        Optional<Order> orderOptional = orderRepository.findById(id);
+        if (orderOptional.isPresent()) {
+            return orderOptional.get();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No order with id: " + id);
     }
 
     @PostMapping("/{id}")

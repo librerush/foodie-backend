@@ -2,12 +2,14 @@ package com.example.foodie.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.apache.commons.io.FileUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +29,7 @@ public class ImageController {
             bytes = FileUtils
                     .readFileToByteArray(new File(dataPath));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No image: " + path);
         }
         return bytes;
     }
