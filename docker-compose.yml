@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  db:
+    image: "postgres:12"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    restart: always
+    environment:
+      - POSTGRES_DB=foodie
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qwerty
+  web:
+    build: .
+    command: ./gradlew bootRun
+    environment:
+      - DB_HOST=db
+      - DDL=update
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+    ports:
+      - "8000:8080" # host:container
+    restart: always
