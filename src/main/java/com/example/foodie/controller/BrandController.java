@@ -4,6 +4,7 @@ import com.example.foodie.entity.Brand;
 import com.example.foodie.repository.BrandRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,8 @@ public class BrandController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a brand by 'id'")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "Brand not found")
     Brand getById(@Parameter(description = "id of brand")
                   @PathVariable Long id) {
         Optional<Brand> brandOptional = brandRepository.findById(id);

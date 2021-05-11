@@ -6,6 +6,7 @@ import com.example.foodie.repository.OrderRepository;
 import com.example.foodie.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a user by 'id'")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "User not found")
     User getById(@Parameter(description = "id of user")
                  @PathVariable("id") Long id) {
         Optional<User> userOptional = userRepository.findById(id);
@@ -61,6 +64,8 @@ public class UserController {
 
     @GetMapping
     @Operation(summary = "Get a user by 'email'")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "User not found")
     User getByEmailAndPassword(@Parameter(description = "email of user")
                                @RequestParam("email") String email) {
         Optional<User> userOptional = userRepository.findUserByEmail(email);
@@ -72,12 +77,18 @@ public class UserController {
 
     @PostMapping
     @Operation(summary = "Create a new user (email must be unique)")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "400", description = "User with email already exists")
     User create(@Parameter(description = "name of user")
                 @RequestParam("name") String name,
                 @Parameter(description = "email of user")
                 @RequestParam("email") String email,
                 @Parameter(description = "password of user")
                 @RequestParam("password") String password) {
+        Optional<User> userOptional = userRepository.findUserByEmail(email);
+        if (userOptional.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email already exists: " + email);
+        }
         User user = new User(name, email, password);
         user = userRepository.save(user);
         return user;

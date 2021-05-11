@@ -1,6 +1,7 @@
 package com.example.foodie.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +21,8 @@ public class ImageController {
     @GetMapping(value = "/{path}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     @Operation(summary = "Get an image by 'path'")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "Image not found")
     public @ResponseBody byte[] getImageAsResource(@PathVariable String path) {
         byte[] bytes = new byte[0];
         String dataPath = IMAGE_STORAGE_PATH + path;
@@ -34,6 +37,8 @@ public class ImageController {
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "Upload a file to storage")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "400", description = "Bad request")
     public @ResponseBody String uploadImage(@RequestBody MultipartFile multipartFile) {
         if (multipartFile == null
                 || multipartFile.isEmpty()

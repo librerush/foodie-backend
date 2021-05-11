@@ -8,6 +8,7 @@ import com.example.foodie.repository.CategoryRepository;
 import com.example.foodie.repository.ProductRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,8 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a product by 'id'")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "Product not found")
     Product getById(@Parameter(description = "id of product")
                     @PathVariable Long id) {
         Optional<Product> productOptional = productRepository.findById(id);
