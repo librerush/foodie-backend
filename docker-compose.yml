@@ -16,6 +16,7 @@ services:
     environment:
       - DB_HOST=db
       - DDL=update
+      - SERVER_PORT=8080
     volumes:
       - .:/code
     depends_on:
