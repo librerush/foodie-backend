@@ -6,6 +6,7 @@ import com.example.foodie.entity.Product;
 import com.example.foodie.repository.BrandRepository;
 import com.example.foodie.repository.CategoryRepository;
 import com.example.foodie.repository.ProductRepository;
+import com.example.foodie.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,6 +30,9 @@ public class ProductController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductService productService;
 
     @GetMapping
     @Operation(summary = "Get all products")
@@ -81,9 +85,6 @@ public class ProductController {
     @PostMapping
     @Operation(summary = "Create a new product")
     Product create(@RequestBody Product product) {
-        brandRepository.save(product.getBrand());
-        categoryRepository.save(product.getCategory());
-        productRepository.save(product);
-        return product;
+        return productService.create(product);
     }
 }
