@@ -8,14 +8,14 @@ services:
     restart: always
     environment:
       - POSTGRES_DB=foodie
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=foodie
       - POSTGRES_PASSWORD=qwerty
   web:
     build: .
     command: ./gradlew bootRun
     environment:
       - DB_HOST=db
-      - DDL=update
+      - DDL=none
       - SERVER_PORT=8080
     volumes:
       - .:/code

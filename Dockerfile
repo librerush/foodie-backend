@@ -4,4 +4,4 @@ COPY . /code
 WORKDIR /code
 
 RUN chmod +x gradlew
-RUN ./gradlew build -x test
+RUN ./gradlew build

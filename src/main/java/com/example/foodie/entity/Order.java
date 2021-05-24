@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "orders", schema = "foodie_scheme")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -20,7 +20,7 @@ public class Order {
     private User user;
 
     @ManyToMany(cascade = { CascadeType.MERGE }, fetch = FetchType.EAGER)
-    @JoinTable(name = "orders_product", schema = "foodie_scheme",
+    @JoinTable(name = "orders_product",
             joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
     private List<Product> products = new ArrayList<>();

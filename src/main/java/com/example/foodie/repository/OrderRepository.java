@@ -9,8 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long>,
-        org.springframework.data.repository.Repository<Order, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
     
     List<Order> findOrderByDate(LocalDate date);
 

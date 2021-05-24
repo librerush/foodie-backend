@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>,
-        org.springframework.data.repository.Repository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findUserByName(String name);
 

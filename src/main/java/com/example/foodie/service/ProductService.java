@@ -11,14 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductService {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    private final BrandRepository brandRepository;
+
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    private BrandRepository brandRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
+        this.brandRepository = brandRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
     @Transactional
     @Modifying

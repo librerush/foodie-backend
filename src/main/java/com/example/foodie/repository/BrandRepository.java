@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BrandRepository extends JpaRepository<Brand, Long>,
-        org.springframework.data.repository.Repository<Brand, Long> {
+public interface BrandRepository extends JpaRepository<Brand, Long> {
     
     List<Brand> findBrandByName(String name);
 }

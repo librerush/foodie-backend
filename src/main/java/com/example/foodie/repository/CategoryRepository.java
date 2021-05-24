@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long>,
-        org.springframework.data.repository.Repository<Category, Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     boolean existsByNameLike(String name);
 

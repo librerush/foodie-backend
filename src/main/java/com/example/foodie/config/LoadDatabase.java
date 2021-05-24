@@ -12,19 +12,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
 public class LoadDatabase {
+    private final BrandRepository brandRepository;
+    private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+
     @Autowired
-    private BrandRepository brandRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private UserRepository userRepository;
+    public LoadDatabase(BrandRepository brandRepository, CategoryRepository categoryRepository, ProductRepository productRepository, UserRepository userRepository) {
+        this.brandRepository = brandRepository;
+        this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+    }
 
     @Bean
+    @Transactional
+    @Modifying
     CommandLineRunner initDatabase() {
         return args -> {
             if (categoryRepository.existsByNameLike("Чипсы")) {

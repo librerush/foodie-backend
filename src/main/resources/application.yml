@@ -1,0 +1,27 @@
+server:
+  port: ${SERVER_PORT:8080}
+logging:
+  level:
+    web: "info"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/foodie"
+    username: "foodie"
+    password: "qwerty"
+  flyway:
+    enabled: true
+    url: "jdbc:postgresql://localhost:5432/foodie"
+    user: "foodie"
+    password: "qwerty"
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: "none"

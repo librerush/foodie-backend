@@ -11,8 +11,7 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository
-        extends JpaRepository<Product, Long>,
-        org.springframework.data.repository.Repository<Product, Long> {
+        extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE CONCAT('%', LOWER(?1) , '%')")
     List<Product> findProductByName(String name);
