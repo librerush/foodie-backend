@@ -19,8 +19,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
+    private final CategoryRepository categoryRepository;
+
     @Autowired
-    private CategoryRepository categoryRepository;
+    public CategoryController(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @GetMapping
     @Operation(summary = "Get all categories")

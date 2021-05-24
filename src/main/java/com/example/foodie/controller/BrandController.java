@@ -19,8 +19,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/brand")
 public class BrandController {
+    private final BrandRepository brandRepository;
+
     @Autowired
-    private BrandRepository brandRepository;
+    public BrandController(BrandRepository brandRepository) {
+        this.brandRepository = brandRepository;
+    }
 
     @GetMapping
     @Operation(summary = "Get all brands")

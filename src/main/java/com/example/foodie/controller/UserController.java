@@ -19,11 +19,15 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final OrderRepository orderRepository;
 
     @Autowired
-    private OrderRepository orderRepository;
+    public UserController(UserRepository userRepository, OrderRepository orderRepository) {
+        this.userRepository = userRepository;
+        this.orderRepository = orderRepository;
+    }
 
     @GetMapping("/orders/{id}")
     @Operation(summary = "Get all orders of user by 'id'")

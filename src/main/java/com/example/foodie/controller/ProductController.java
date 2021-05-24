@@ -22,17 +22,21 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    private final BrandRepository brandRepository;
+
+    private final CategoryRepository categoryRepository;
+
+    private final ProductService productService;
 
     @Autowired
-    private BrandRepository brandRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private ProductService productService;
+    public ProductController(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository, ProductService productService) {
+        this.productRepository = productRepository;
+        this.brandRepository = brandRepository;
+        this.categoryRepository = categoryRepository;
+        this.productService = productService;
+    }
 
     @GetMapping
     @Operation(summary = "Get all products")
