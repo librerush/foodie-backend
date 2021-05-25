@@ -52,7 +52,7 @@ public class LoadDatabase {
                     "Ванильный аромат и нежнейшее молочно-ореховое пралине в сочетании с шоколадной глазурью делают эти конфеты достойным угощением вашего стола.",
                     "2.jpg");
 
-            User user1 = new User("Alex", "alex@mail.com", "alex");
+            User user1 = new User("Alex", "alex@mail.com", "alex", "Almaty");
 
             categoryRepository.save(category1);
             categoryRepository.save(category2);

@@ -23,13 +23,15 @@ CREATE TABLE IF NOT EXISTS users (
     id int primary key,
     name varchar(256),
     email varchar(256),
-    password varchar(256)
+    password varchar(256),
+    address varchar(1024)
 );
 
 CREATE TABLE IF NOT EXISTS orders (
     id int primary key,
     user_id int references users(id),
-    order_date date
+    order_date date,
+    done bool
 );
 
 CREATE TABLE IF NOT EXISTS orders_product (

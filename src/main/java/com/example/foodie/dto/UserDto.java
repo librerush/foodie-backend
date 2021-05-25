@@ -1,14 +1,6 @@
-package com.example.foodie.entity;
+package com.example.foodie.dto;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
-
+public class UserDto {
     private String name;
 
     private String email;
@@ -17,22 +9,14 @@ public class User {
 
     private String address;
 
-    public User() {
+    public UserDto() {
     }
 
-    public User(String name, String email, String password, String address) {
+    public UserDto(String name, String email, String password, String address) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.address = address;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -65,16 +49,5 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", address='" + address + '\'' +
-                '}';
     }
 }

@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   db:
+    container_name: "foodie_db"
     image: "postgres:12"
     volumes:
       - ./data/db:/var/lib/postgresql/data
@@ -11,6 +12,7 @@ services:
       - POSTGRES_USER=foodie
       - POSTGRES_PASSWORD=qwerty
   web:
+    container_name: "foodie_web"
     build: .
     command: ./gradlew bootRun
     environment:

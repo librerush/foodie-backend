@@ -1,47 +1,30 @@
 package com.example.foodie.controller;
 
-import com.example.foodie.entity.Brand;
-import com.example.foodie.entity.Category;
+import com.example.foodie.dto.ProductDto;
 import com.example.foodie.entity.Product;
-import com.example.foodie.repository.BrandRepository;
-import com.example.foodie.repository.CategoryRepository;
-import com.example.foodie.repository.ProductRepository;
 import com.example.foodie.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
-    private final ProductRepository productRepository;
-
-    private final BrandRepository brandRepository;
-
-    private final CategoryRepository categoryRepository;
-
     private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository, ProductService productService) {
-        this.productRepository = productRepository;
-        this.brandRepository = brandRepository;
-        this.categoryRepository = categoryRepository;
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
     @GetMapping
     @Operation(summary = "Get all products")
     List<Product> findAll() {
-        return productRepository.findAll();
+        return productService.findAll();
     }
 
     @GetMapping("/{id}")
@@ -50,45 +33,33 @@ public class ProductController {
     @ApiResponse(responseCode = "404", description = "Product not found")
     Product getById(@Parameter(description = "id of product")
                     @PathVariable Long id) {
-        Optional<Product> productOptional = productRepository.findById(id);
-        if (productOptional.isPresent()) {
-            return productOptional.get();
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No product with id: " + id);
+        return productService.getById(id);
     }
 
     @GetMapping("/search/{name}")
     @Operation(summary = "Get the products by name")
     List<Product> getByName(@Parameter(description = "product name")
                             @PathVariable String name) {
-        return productRepository.findProductByName(name);
+        return productService.getByName(name);
     }
 
     @GetMapping("/category/{name}")
     @Operation(summary = "Get the products by category")
     List<Product> getByCategory(@Parameter(description = "category name")
                                 @PathVariable String name) {
-        List<Category> categories = categoryRepository.findCategoryByName(name);
-        if (categories == null || categories.size() < 1) {
-            return new ArrayList<>();
-        }
-        return productRepository.findProductByCategory(categories.get(0));
+        return productService.getByCategory(name);
     }
 
     @GetMapping("/brand/{name}")
     @Operation(summary = "Get the products by brand")
     List<Product> getByBrand(@Parameter(description = "brand name")
                              @PathVariable String name) {
-        List<Brand> brands = brandRepository.findBrandByName(name);
-        if (brands == null || brands.size() < 1) {
-            return new ArrayList<>();
-        }
-        return productRepository.findProductByBrand(brands.get(0));
+        return productService.getByBrand(name);
     }
 
     @PostMapping
     @Operation(summary = "Create a new product")
-    Product create(@RequestBody Product product) {
-        return productService.create(product);
+    Product create(@RequestBody ProductDto productDto) {
+        return productService.create(productDto);
     }
 }
