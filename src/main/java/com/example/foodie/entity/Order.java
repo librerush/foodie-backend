@@ -19,6 +19,8 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private boolean done;
+
     @ManyToMany(cascade = { CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinTable(name = "orders_product",
             joinColumns = {@JoinColumn(name = "order_id")},
@@ -65,12 +67,21 @@ public class Order {
         this.products = products;
     }
 
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
                 ", date=" + date +
                 ", user=" + user +
+                ", done=" + done +
                 ", products=" + products +
                 '}';
     }
