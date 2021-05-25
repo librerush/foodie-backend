@@ -6,6 +6,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the stack
-        run: docker-compose up -d --build
+        run: docker-compose up -d
       - name: Test
-        run: docker run appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8000/
+        run: docker run --network container:foodie_web appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8080
