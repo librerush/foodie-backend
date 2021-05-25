@@ -1,12 +1,11 @@
-name: Docker Compose Actions Workflow
+name: "Docker Compose Actions Workflow"
 on: [ push ]
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-      - uses: actions/checkout@v2
-        run: docker-compose ps
+        uses: actions/checkout@v2
       - name: Build the stack and test
         run: |
           docker-compose up -d

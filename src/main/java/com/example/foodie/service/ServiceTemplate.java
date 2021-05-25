@@ -1,5 +1,6 @@
 package com.example.foodie.service;
 
+import com.example.foodie.dto.ResultDto;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,11 +15,11 @@ public interface ServiceTemplate<T, I, DTO> {
 
     @Transactional
     @Modifying
-    void delete(T t);
+    ResultDto delete(T t);
 
     @Transactional
     @Modifying
-    void deleteById(I i);
+    ResultDto deleteById(I i);
 
     @Transactional
     @Modifying

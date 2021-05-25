@@ -1,6 +1,7 @@
 package com.example.foodie.service;
 
 import com.example.foodie.dto.ProductDto;
+import com.example.foodie.dto.ResultDto;
 import com.example.foodie.entity.Brand;
 import com.example.foodie.entity.Category;
 import com.example.foodie.entity.Product;
@@ -47,13 +48,23 @@ public class ProductService implements ServiceTemplate<Product, Long, ProductDto
     }
 
     @Override
-    public void delete(Product product) {
-        productRepository.delete(product);
+    public ResultDto delete(Product product) {
+        try {
+            productRepository.delete(product);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found: " + product);
+        }
+        return new ResultDto(true, "Deleted product with id: " + product);
     }
 
     @Override
-    public void deleteById(Long aLong) {
-        productRepository.deleteById(aLong);
+    public ResultDto deleteById(Long aLong) {
+        try {
+            productRepository.deleteById(aLong);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id not found: " + aLong);
+        }
+        return new ResultDto(true, "Deleted product with id: " + aLong);
     }
 
     @Override

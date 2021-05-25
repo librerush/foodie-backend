@@ -1,6 +1,7 @@
 package com.example.foodie.service;
 
 import com.example.foodie.dto.OrderDto;
+import com.example.foodie.dto.ResultDto;
 import com.example.foodie.entity.Order;
 import com.example.foodie.entity.Product;
 import com.example.foodie.entity.User;
@@ -40,13 +41,23 @@ public class OrderService implements ServiceTemplate<Order, Long, OrderDto> {
     }
 
     @Override
-    public void delete(Order order) {
-
+    public ResultDto delete(Order order) {
+        try {
+            orderRepository.delete(order);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found: " + order);
+        }
+        return new ResultDto(true, "Deleted order: " + order);
     }
 
     @Override
-    public void deleteById(Long aLong) {
-
+    public ResultDto deleteById(Long aLong) {
+        try {
+            orderRepository.deleteById(aLong);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order id not found: " + aLong);
+        }
+        return new ResultDto(true, "Deleted order with id: " + aLong);
     }
 
     @Override

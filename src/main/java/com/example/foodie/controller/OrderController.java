@@ -1,6 +1,7 @@
 package com.example.foodie.controller;
 
 import com.example.foodie.dto.OrderDto;
+import com.example.foodie.dto.ResultDto;
 import com.example.foodie.entity.Order;
 import com.example.foodie.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,5 +36,14 @@ public class OrderController {
     Order createOrder(@Parameter(description = "user id and a list of products")
                       @RequestBody OrderDto orderDto) {
         return orderService.create(orderDto);
+    }
+
+    @DeleteMapping
+    @Operation(summary = "Delete an order")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "Order not found")
+    ResultDto deleteOrder(@Parameter(description = "an order")
+                          @RequestBody Order order) {
+        return orderService.delete(order);
     }
 }
