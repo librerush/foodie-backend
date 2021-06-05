@@ -46,4 +46,11 @@ public class OrderController {
                           @RequestBody Order order) {
         return orderService.delete(order);
     }
+
+    @PutMapping
+    @Operation(summary = "Update an order")
+    Order updateOrder(@Parameter(description = "an order")
+                      @RequestBody Order order) {
+        return orderService.update(order);
+    }
 }

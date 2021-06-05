@@ -62,7 +62,7 @@ public class OrderService implements ServiceTemplate<Order, Long, OrderDto> {
 
     @Override
     public Order update(Order order) {
-        return null;
+        return orderRepository.save(order);
     }
 
     @Override

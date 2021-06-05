@@ -13,14 +13,14 @@ spring:
     console:
       enabled: false
   datasource:
-    url: "jdbc:h2:file:./h2/test"
+    url: "jdbc:h2:mem:test"
     driver-class-name: "org.h2.Driver"
-    username: "postgres"
+    username: "foodie"
     password: "qwerty"
   flyway:
     enabled: true
-    url: "jdbc:h2:file:./h2/test"
-    user: "postgres"
+    url: "jdbc:h2:mem:test"
+    user: "foodie"
     password: "qwerty"
   jpa:
     hibernate:

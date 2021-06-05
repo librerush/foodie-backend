@@ -9,4 +9,4 @@ jobs:
       - name: Build the stack and test
         run: |
           docker-compose up -d
-          docker run --network container:foodie_web appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8080
+          docker-compose ps

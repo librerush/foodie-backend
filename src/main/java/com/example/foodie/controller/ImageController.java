@@ -24,7 +24,7 @@ public class ImageController {
     @ApiResponse(responseCode = "200", description = "OK")
     @ApiResponse(responseCode = "404", description = "Image not found")
     public @ResponseBody byte[] getImageAsResource(@PathVariable String path) {
-        byte[] bytes = new byte[0];
+        byte[] bytes;
         String dataPath = IMAGE_STORAGE_PATH + path;
         try {
             bytes = FileUtils

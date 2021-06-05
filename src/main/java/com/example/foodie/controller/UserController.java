@@ -61,4 +61,10 @@ public class UserController {
     User createUser(@RequestBody UserDto userDto) {
         return userService.create(userDto);
     }
+
+    @PutMapping
+    @Operation(summary = "Update a user")
+    User updateUser(@RequestBody User user) {
+        return userService.update(user);
+    }
 }
