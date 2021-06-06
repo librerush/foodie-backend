@@ -7,7 +7,6 @@ import com.example.foodie.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +16,15 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/exists")
+    @Operation(summary = "Check if user exists by email and password")
+    boolean userExists(@RequestParam("email") String email,
+                       @RequestParam("password") String password) {
+        return userService.exists(email, password);
     }
 
     @GetMapping("/orders/{id}")

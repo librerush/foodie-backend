@@ -5,7 +5,6 @@ import com.example.foodie.repository.BrandRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +20,6 @@ import java.util.Optional;
 public class BrandController {
     private final BrandRepository brandRepository;
 
-    @Autowired
     public BrandController(BrandRepository brandRepository) {
         this.brandRepository = brandRepository;
     }

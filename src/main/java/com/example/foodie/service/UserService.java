@@ -6,7 +6,6 @@ import com.example.foodie.entity.Order;
 import com.example.foodie.entity.User;
 import com.example.foodie.repository.OrderRepository;
 import com.example.foodie.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +19,12 @@ import java.util.Optional;
 public class UserService implements ServiceTemplate<User, Long, UserDto> {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final PasswordEncoderService passwordEncoderService;
 
-    @Autowired
-    public UserService(UserRepository userRepository, OrderRepository orderRepository) {
+    public UserService(UserRepository userRepository, OrderRepository orderRepository, PasswordEncoderService passwordEncoderService) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
+        this.passwordEncoderService = passwordEncoderService;
     }
 
     @Override
@@ -104,5 +104,14 @@ public class UserService implements ServiceTemplate<User, Long, UserDto> {
             return userOptional.get();
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user with email: " + email);
+    }
+
+    @Transactional
+    public boolean exists(String email, String password) {
+        Optional<User> userOptional = userRepository.findUserByEmail(email);
+        if (userOptional.isEmpty()) {
+            return false;
+        }
+        return passwordEncoderService.matches(password, userOptional.get().getPassword());
     }
 }

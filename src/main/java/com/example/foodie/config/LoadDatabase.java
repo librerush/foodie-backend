@@ -8,7 +8,7 @@ import com.example.foodie.repository.BrandRepository;
 import com.example.foodie.repository.CategoryRepository;
 import com.example.foodie.repository.ProductRepository;
 import com.example.foodie.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.foodie.service.PasswordEncoderService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,13 +21,15 @@ public class LoadDatabase {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoderService passwordEncoderService;
 
-    @Autowired
-    public LoadDatabase(BrandRepository brandRepository, CategoryRepository categoryRepository, ProductRepository productRepository, UserRepository userRepository) {
+    public LoadDatabase(BrandRepository brandRepository, CategoryRepository categoryRepository,
+                        ProductRepository productRepository, UserRepository userRepository, PasswordEncoderService passwordEncoderService) {
         this.brandRepository = brandRepository;
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.passwordEncoderService = passwordEncoderService;
     }
 
     @Bean
@@ -61,6 +63,7 @@ public class LoadDatabase {
             productRepository.save(product1);
             productRepository.save(product2);
 
+            user1.setPassword(passwordEncoderService.encode(user1.getPassword()));
             userRepository.save(user1);
         };
     }
