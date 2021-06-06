@@ -7,5 +7,3 @@
 - PostgreSQL
 
 Swagger UI: http://localhost:8080/swagger-ui.html
-
-Basic Auth: foodie_user:foodie_password
