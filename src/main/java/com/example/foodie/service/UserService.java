@@ -33,7 +33,7 @@ public class UserService implements ServiceTemplate<User, Long, UserDto> {
         if (userOptional.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email already exists: " + userDto.getEmail());
         }
-        User user = new User(userDto.getName(), userDto.getEmail(), userDto.getPassword(), userDto.getAddress());
+        User user = new User(userDto.getName(), userDto.getEmail(), passwordEncoderService.encode(userDto.getPassword()), userDto.getAddress());
         return userRepository.save(user);
     }
 

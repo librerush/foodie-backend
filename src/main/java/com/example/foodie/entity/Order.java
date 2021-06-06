@@ -1,7 +1,7 @@
 package com.example.foodie.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class Order {
     private long id;
 
     @Column(name = "order_date")
-    private LocalDate date;
+    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -30,7 +30,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(LocalDate date, User user) {
+    public Order(LocalDateTime date, User user) {
         this.date = date;
         this.user = user;
     }
@@ -43,11 +43,11 @@ public class Order {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

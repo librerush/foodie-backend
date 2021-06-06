@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS orders (
     id int primary key,
     user_id int references users(id),
-    order_date date,
+    order_date timestamp without time zone default (now() at time zone 'utc'),
     done bool
 );
 
