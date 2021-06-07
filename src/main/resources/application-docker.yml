@@ -22,6 +22,4 @@ spring:
     user: "foodie"
     password: "qwerty"
   jpa:
-    hibernate:
-      ddl-auto: "${DDL}"
-    show-sql: false
+    show-sql: true

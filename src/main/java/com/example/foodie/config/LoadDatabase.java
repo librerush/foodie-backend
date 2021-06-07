@@ -9,6 +9,7 @@ import com.example.foodie.repository.CategoryRepository;
 import com.example.foodie.repository.ProductRepository;
 import com.example.foodie.repository.UserRepository;
 import com.example.foodie.service.PasswordEncoderService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,9 @@ public class LoadDatabase {
     private final UserRepository userRepository;
     private final PasswordEncoderService passwordEncoderService;
 
+    @Value("${INIT_DB}")
+    private String initDb;
+
     public LoadDatabase(BrandRepository brandRepository, CategoryRepository categoryRepository,
                         ProductRepository productRepository, UserRepository userRepository, PasswordEncoderService passwordEncoderService) {
         this.brandRepository = brandRepository;
@@ -32,12 +36,15 @@ public class LoadDatabase {
         this.passwordEncoderService = passwordEncoderService;
     }
 
+    /**
+     * Testing data.
+     */
     @Bean
     @Transactional
     @Modifying
     CommandLineRunner initDatabase() {
         return args -> {
-            if (categoryRepository.existsByNameLike("Чипсы")) {
+            if ("false".equals(initDb)) {
                 return;
             }
 

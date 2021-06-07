@@ -18,7 +18,7 @@ services:
     environment:
       - spring_profiles_active=docker
       - DB_HOST=db
-      - DDL=none
+      - INIT_DB=false
       - SERVER_PORT=8080
     volumes:
       - .:/code

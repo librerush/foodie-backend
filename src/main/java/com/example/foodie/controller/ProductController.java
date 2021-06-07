@@ -1,6 +1,7 @@
 package com.example.foodie.controller;
 
 import com.example.foodie.dto.ProductDto;
+import com.example.foodie.dto.ResultDto;
 import com.example.foodie.entity.Product;
 import com.example.foodie.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,5 +60,18 @@ public class ProductController {
     @Operation(summary = "Create a new product")
     Product create(@RequestBody ProductDto productDto) {
         return productService.create(productDto);
+    }
+
+    @PutMapping
+    @Operation(summary = "Update a product")
+    Product update(@RequestBody Product product) {
+        return productService.update(product);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a product")
+    ResultDto delete(@Parameter(description = "id of product")
+                     @PathVariable Long id) {
+        return productService.deleteById(id);
     }
 }

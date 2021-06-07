@@ -8,7 +8,6 @@ import com.example.foodie.entity.Product;
 import com.example.foodie.repository.BrandRepository;
 import com.example.foodie.repository.CategoryRepository;
 import com.example.foodie.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +25,6 @@ public class ProductService implements ServiceTemplate<Product, Long, ProductDto
 
     private final CategoryRepository categoryRepository;
 
-    @Autowired
     public ProductService(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;

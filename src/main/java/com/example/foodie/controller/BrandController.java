@@ -1,33 +1,29 @@
 package com.example.foodie.controller;
 
+import com.example.foodie.dto.BrandDto;
+import com.example.foodie.dto.ResultDto;
 import com.example.foodie.entity.Brand;
-import com.example.foodie.repository.BrandRepository;
+import com.example.foodie.service.BrandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/brand")
 public class BrandController {
-    private final BrandRepository brandRepository;
+    private final BrandService brandService;
 
-    public BrandController(BrandRepository brandRepository) {
-        this.brandRepository = brandRepository;
+    public BrandController(BrandService brandService) {
+        this.brandService = brandService;
     }
 
     @GetMapping
     @Operation(summary = "Get all brands")
     List<Brand> getAll() {
-        return brandRepository.findAll();
+        return brandService.findAll();
     }
 
     @GetMapping("/{id}")
@@ -36,10 +32,22 @@ public class BrandController {
     @ApiResponse(responseCode = "404", description = "Brand not found")
     Brand getById(@Parameter(description = "id of brand")
                   @PathVariable Long id) {
-        Optional<Brand> brandOptional = brandRepository.findById(id);
-        if (brandOptional.isPresent()) {
-            return brandOptional.get();
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No brand with id: " + id);
+        return brandService.getById(id);
+    }
+
+    @PostMapping
+    @Operation(summary = "Create a brand")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "Error")
+    Brand create(@RequestBody BrandDto brandDto) {
+        return brandService.create(brandDto);
+    }
+
+    @DeleteMapping
+    @Operation(summary = "Delete a brand")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "Error")
+    ResultDto delete(@RequestBody Brand brand) {
+        return brandService.delete(brand);
     }
 }
