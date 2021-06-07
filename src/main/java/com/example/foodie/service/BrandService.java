@@ -68,4 +68,8 @@ public class BrandService implements ServiceTemplate<Brand, Long, BrandDto> {
     public List<Brand> findAll() {
         return brandRepository.findAll();
     }
+
+    public List<Brand> findByName(String name) {
+        return brandRepository.findBrandByName(name);
+    }
 }

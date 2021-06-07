@@ -39,16 +39,16 @@ public class ImageService {
         }
         String path = null;
         if (!multipartFile.isEmpty()) {
-            path = String.format("%s%d-%s",
-                    imageStoragePath(), currentUnixTime(), multipartFile.getOriginalFilename());
+            path = String.format("%d-%s", currentUnixTime(), multipartFile.getOriginalFilename());
+            String fullPath = String.format("%s%s", imageStoragePath(), path);
             try {
-                multipartFile.transferTo(new File(path).getAbsoluteFile());
+                multipartFile.transferTo(new File(fullPath).getAbsoluteFile());
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "Got an exception when uploading a file: " + multipartFile.getOriginalFilename());
             }
         }
-        return "Uploaded a file: " + path;
+        return path;
     }
 }

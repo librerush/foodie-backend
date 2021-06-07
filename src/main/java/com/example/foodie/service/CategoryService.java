@@ -64,4 +64,8 @@ public class CategoryService implements ServiceTemplate<Category, Long, String> 
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
+
+    public List<Category> findByName(String name) {
+        return categoryRepository.findCategoryByName(name);
+    }
 }
