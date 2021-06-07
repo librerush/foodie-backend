@@ -52,7 +52,7 @@ public class BrandService implements ServiceTemplate<Brand, Long, BrandDto> {
 
     @Override
     public Optional<Brand> findById(Long aLong) {
-        return Optional.empty();
+        return brandRepository.findById(aLong);
     }
 
     @Override

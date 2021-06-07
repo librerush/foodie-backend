@@ -9,8 +9,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -22,20 +25,33 @@ public class BrandControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    private final Brand brand = new Brand("foo", "bar");
+
     @Test
     public void shouldCreate() throws Exception {
-        Brand brand = new Brand("foo", "bar");
-        String reqBody = "{\"name\": \"foo\", \"description\": \"bar\"}";
-
+        String jsonStr = "{\"name\": \"foo\", \"description\": \"bar\"}";
         when(brandService.create(any())).thenReturn(brand);
 
         mockMvc.perform(post("/api/brand/")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(reqBody))
+                .content(jsonStr))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(0))
                 .andExpect(jsonPath("$.name").value("foo"))
                 .andExpect(jsonPath("$.description").value("bar"));
+    }
+
+    @Test
+    public void shouldFindAll() throws Exception {
+        when(brandService.findAll()).thenReturn(Collections.singletonList(brand));
+
+        mockMvc.perform(get("/api/brand/"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.size()").value(1))
+                .andExpect(jsonPath("$[0].id").value(0))
+                .andExpect(jsonPath("$[0].name").value("foo"))
+                .andExpect(jsonPath("$[0].description").value("bar"));
     }
 }

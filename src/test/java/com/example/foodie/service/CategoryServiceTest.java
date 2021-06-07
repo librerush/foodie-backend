@@ -1,9 +1,8 @@
 package com.example.foodie.service;
 
-import com.example.foodie.dto.ProductDto;
-import com.example.foodie.repository.BrandRepository;
+import com.example.foodie.entity.Category;
 import com.example.foodie.repository.CategoryRepository;
-import com.example.foodie.repository.ProductRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,31 +17,26 @@ import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceTest {
-
-    @Mock
-    private BrandRepository brandRepository;
-
+public class CategoryServiceTest {
     @Mock
     private CategoryRepository categoryRepository;
 
-    @Mock
-    private ProductRepository productRepository;
-
     @InjectMocks
-    private ProductService productService;
+    private CategoryService categoryService;
 
-    @Mock
-    private ProductDto productDto;
+    private Category category;
+
+    @BeforeEach
+    public void setUp() {
+        category = new Category("foo");
+    }
 
     @Test
     public void shouldCreate() {
-        when(productRepository.save(any())).then(returnsFirstArg());
-        assertThat(productService.create(productDto)).isNotNull();
+        when(categoryRepository.save(any())).then(returnsFirstArg());
+
+        assertThat(categoryService.create("foo")).isEqualTo(category);
     }
 
-    @Test
-    public void shouldFindAll() {
-        assertThat(productService.findAll()).isNotNull();
-    }
+
 }
