@@ -2,9 +2,9 @@ package com.example.foodie.service;
 
 import com.example.foodie.dto.ResultDto;
 import com.example.foodie.dto.UserDto;
-import com.example.foodie.entity.Order;
+import com.example.foodie.entity.OrderProduct;
 import com.example.foodie.entity.User;
-import com.example.foodie.repository.OrderRepository;
+import com.example.foodie.repository.OrderProductRepository;
 import com.example.foodie.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,12 +18,13 @@ import java.util.Optional;
 @Service
 public class UserService implements ServiceTemplate<User, Long, UserDto> {
     private final UserRepository userRepository;
-    private final OrderRepository orderRepository;
+    private final OrderProductRepository orderProductRepository;
     private final PasswordEncoderService passwordEncoderService;
 
-    public UserService(UserRepository userRepository, OrderRepository orderRepository, PasswordEncoderService passwordEncoderService) {
+    public UserService(UserRepository userRepository, OrderProductRepository orderProductRepository,
+                       PasswordEncoderService passwordEncoderService) {
         this.userRepository = userRepository;
-        this.orderRepository = orderRepository;
+        this.orderProductRepository = orderProductRepository;
         this.passwordEncoderService = passwordEncoderService;
     }
 
@@ -69,21 +70,21 @@ public class UserService implements ServiceTemplate<User, Long, UserDto> {
     }
 
     @Transactional
-    public List<Order> getOrdersById(Long id) {
-        List<Order> orders = new ArrayList<>();
+    public List<OrderProduct> getOrdersById(Long id) {
+        List<OrderProduct> orders = new ArrayList<>();
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
-            return orderRepository.findOrderByUser(user.get());
+            return orderProductRepository.findOrderProductByUserId(user.get().getId());
         }
         return orders;
     }
 
     @Transactional
-    public List<Order> getOrdersByEmail(String email) {
-        List<Order> orders = new ArrayList<>();
+    public List<OrderProduct> getOrdersByEmail(String email) {
+        List<OrderProduct> orders = new ArrayList<>();
         Optional<User> user = userRepository.findUserByEmail(email);
         if (user.isPresent()) {
-            return orderRepository.findOrderByUser(user.get());
+            return orderProductRepository.findOrderProductByUserId(user.get().getId());
         }
         return orders;
     }

@@ -7,26 +7,17 @@ import java.util.Objects;
 @Table(name = "brand")
 public class Brand {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(length = 1024)
     private String name;
-
-    @Column(length = 2048)
-    private String description;
 
     public Brand() {
     }
 
-    public Brand(String name, String description) {
+    public Brand(String name) {
         this.name = name;
-        this.description = description;
-    }
-
-    public Brand(long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
     }
 
     public long getId() {
@@ -45,20 +36,11 @@ public class Brand {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     @Override
     public String toString() {
         return "Brand{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
                 '}';
     }
 
@@ -66,19 +48,12 @@ public class Brand {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Brand brand = (Brand) o;
-
-        if (id != brand.id) return false;
-        if (!Objects.equals(name, brand.name)) return false;
-        return Objects.equals(description, brand.description);
+        return id == brand.id && Objects.equals(name, brand.name);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
+        return Objects.hash(id, name);
     }
 }

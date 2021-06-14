@@ -1,7 +1,7 @@
 package com.example.foodie.controller;
 
 import com.example.foodie.dto.UserDto;
-import com.example.foodie.entity.Order;
+import com.example.foodie.entity.OrderProduct;
 import com.example.foodie.entity.User;
 import com.example.foodie.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,14 +29,14 @@ public class UserController {
 
     @GetMapping("/orders/{id}")
     @Operation(summary = "Get all orders of user by 'id'")
-    List<Order> getUserOrders(@Parameter(description = "user id")
+    List<OrderProduct> getUserOrders(@Parameter(description = "user id")
                               @PathVariable Long id) {
         return userService.getOrdersById(id);
     }
 
     @GetMapping("/orders")
     @Operation(summary = "Get all orders of user by 'email'")
-    List<Order> getUserOrdersByEmail(@Parameter(description = "user email")
+    List<OrderProduct> getUserOrdersByEmail(@Parameter(description = "user email")
                                      @RequestParam("email") String email) {
         return userService.getOrdersByEmail(email);
     }

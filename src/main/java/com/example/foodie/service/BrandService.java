@@ -21,8 +21,7 @@ public class BrandService implements ServiceTemplate<Brand, Long, BrandDto> {
 
     @Override
     public Brand create(BrandDto brandDto) {
-        return brandRepository.save(new Brand(brandDto.getName(),
-                brandDto.getDescription()));
+        return brandRepository.save(new Brand(brandDto.getName()));
     }
 
     @Override

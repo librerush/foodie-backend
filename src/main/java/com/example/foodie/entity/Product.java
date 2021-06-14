@@ -4,16 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(length = 1024)
     private String name;
 
     private double price;
@@ -29,13 +31,13 @@ public class Product {
     private Brand brand;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
-    private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "product")
+    private Set<OrderProduct> orderProduct = new HashSet<>();
 
     @Column(length = 2048)
     private String description;
 
-    @Column(length = 1024)
+    @Column(length = 2048)
     private String image;
 
     public Product() {
@@ -107,12 +109,12 @@ public class Product {
         this.image = image;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public Set<OrderProduct> getOrderProduct() {
+        return orderProduct;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setOrderProduct(Set<OrderProduct> orderProduct) {
+        this.orderProduct = orderProduct;
     }
 
     @Override
@@ -126,5 +128,18 @@ public class Product {
                 ", description='" + description + '\'' +
                 ", image='" + image + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && Double.compare(product.price, price) == 0 && Objects.equals(name, product.name) && Objects.equals(category, product.category) && Objects.equals(brand, product.brand) && Objects.equals(description, product.description) && Objects.equals(image, product.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, category, brand, description, image);
     }
 }

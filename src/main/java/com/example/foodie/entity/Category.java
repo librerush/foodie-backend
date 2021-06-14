@@ -7,9 +7,10 @@ import java.util.Objects;
 @Table(name = "category")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(length = 1024)
     private String name;
 
     public Category() {

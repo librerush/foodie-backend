@@ -25,11 +25,11 @@ public class BrandControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private final Brand brand = new Brand("foo", "bar");
+    private final Brand brand = new Brand("foo");
 
     @Test
     public void shouldCreate() throws Exception {
-        String jsonStr = "{\"name\": \"foo\", \"description\": \"bar\"}";
+        String jsonStr = "{\"name\": \"foo\"}";
         when(brandService.create(any())).thenReturn(brand);
 
         mockMvc.perform(post("/api/brand/")
@@ -38,8 +38,7 @@ public class BrandControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(0))
-                .andExpect(jsonPath("$.name").value("foo"))
-                .andExpect(jsonPath("$.description").value("bar"));
+                .andExpect(jsonPath("$.name").value("foo"));
     }
 
     @Test
@@ -51,7 +50,6 @@ public class BrandControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.size()").value(1))
                 .andExpect(jsonPath("$[0].id").value(0))
-                .andExpect(jsonPath("$[0].name").value("foo"))
-                .andExpect(jsonPath("$[0].description").value("bar"));
+                .andExpect(jsonPath("$[0].name").value("foo"));
     }
 }

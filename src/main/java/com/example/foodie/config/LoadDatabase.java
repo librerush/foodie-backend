@@ -51,8 +51,8 @@ public class LoadDatabase {
             Category category1 = new Category("Чипсы");
             Category category2 = new Category("Шоколад");
 
-            Brand brand1 = new Brand("Lays", "");
-            Brand brand2 = new Brand("Рахат", "");
+            Brand brand1 = new Brand("Lays");
+            Brand brand2 = new Brand("Рахат");
 
             Product product1 = new Product("Чипсы Lays шашлык 90 г", 342, category1, brand1,
                     "Хрустящие картофельные чипсы со вкусом шашлыка. Чипсы — это не только быстрый и питательный перекус, это еще компонент многих закусок и салатов, они придают запеканкам хрустящую корочку, а салатам оригинальный вкус.",

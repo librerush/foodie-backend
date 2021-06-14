@@ -1,15 +1,18 @@
 package com.example.foodie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "order_date")
@@ -19,15 +22,12 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private boolean done;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "orders_product",
-            joinColumns = {@JoinColumn(name = "order_id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private List<Product> products = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "order")
+    private Set<OrderProduct> orderProduct = new HashSet<>();
 
     public Order() {
+        date = LocalDateTime.now();
     }
 
     public Order(LocalDateTime date, User user) {
@@ -59,20 +59,12 @@ public class Order {
         this.user = user;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public Set<OrderProduct> getOrderProduct() {
+        return orderProduct;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
+    public void setOrderProduct(Set<OrderProduct> orderProduct) {
+        this.orderProduct = orderProduct;
     }
 
     @Override
@@ -81,8 +73,20 @@ public class Order {
                 "id=" + id +
                 ", date=" + date +
                 ", user=" + user +
-                ", done=" + done +
-                ", products=" + products +
+                ", orderProduct=" + orderProduct +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id && Objects.equals(date, order.date) && Objects.equals(user, order.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, date, user);
     }
 }

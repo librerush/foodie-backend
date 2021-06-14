@@ -2,6 +2,7 @@ package com.example.foodie.service;
 
 import com.example.foodie.dto.UserDto;
 import com.example.foodie.entity.User;
+import com.example.foodie.repository.OrderProductRepository;
 import com.example.foodie.repository.OrderRepository;
 import com.example.foodie.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +30,9 @@ public class UserServiceTest {
     private OrderRepository orderRepository;
 
     @Mock
+    private OrderProductRepository orderProductRepository;
+
+    @Mock
     private PasswordEncoderService passwordEncoderService;
 
     @InjectMocks
@@ -40,7 +44,8 @@ public class UserServiceTest {
     @BeforeEach
     public void setUp() {
         passwordEncoderService = new PasswordEncoderService();
-        userService = new UserService(userRepository, orderRepository, passwordEncoderService);
+        userService = new UserService(userRepository,
+                orderProductRepository, passwordEncoderService);
         when(userRepository.save(any())).then(returnsFirstArg());
         user = userService.create(userDto);
     }

@@ -34,8 +34,8 @@ public class BrandServiceTest {
 
     @BeforeEach
     public void setUp() {
-        brandDto = new BrandDto("Name", "Description");
-        brand = new Brand("Name", "Description");
+        brandDto = new BrandDto("Name");
+        brand = new Brand("Name");
     }
 
     @Test

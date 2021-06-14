@@ -1,6 +1,8 @@
 package com.example.foodie.controller;
 
 import com.example.foodie.dto.OrderDto;
+import com.example.foodie.dto.ProductQuantityDto;
+import com.example.foodie.entity.Product;
 import com.example.foodie.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -9,8 +11,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,8 +27,13 @@ public class OrderControllerTest {
 
     @Test
     public void shouldCreate() throws Exception {
+        Product product = new Product();
+        product.setId(1L);
+        product.setName("Juice");
         objectMapper = new ObjectMapper();
-        OrderDto orderDto = new OrderDto(0L, new ArrayList<>());
+        OrderDto orderDto = new OrderDto();
+        orderDto.setUserId(1L);
+        orderDto.getProducts().add(new ProductQuantityDto(product, 1L));
 
         mockMvc.perform(post("/api/order/")
                 .contentType(MediaType.APPLICATION_JSON)

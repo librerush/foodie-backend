@@ -1,10 +1,13 @@
 package com.example.foodie.service;
 
 import com.example.foodie.dto.OrderDto;
+import com.example.foodie.dto.ProductQuantityDto;
 import com.example.foodie.dto.ResultDto;
 import com.example.foodie.entity.Order;
+import com.example.foodie.entity.OrderProduct;
 import com.example.foodie.entity.Product;
 import com.example.foodie.entity.User;
+import com.example.foodie.repository.OrderProductRepository;
 import com.example.foodie.repository.OrderRepository;
 import com.example.foodie.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -21,23 +24,35 @@ public class OrderService implements ServiceTemplate<Order, Long, OrderDto> {
 
     private final UserRepository userRepository;
 
-    public OrderService(OrderRepository orderRepository, UserRepository userRepository) {
+    private final OrderProductRepository orderProductRepository;
+
+    public OrderService(OrderRepository orderRepository, UserRepository userRepository,
+                        OrderProductRepository orderProductRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
+        this.orderProductRepository = orderProductRepository;
     }
 
     @Override
     public Order create(OrderDto orderDto) {
         Long id = orderDto.getUserId();
-        List<Product> productList = orderDto.getProducts();
+        List<ProductQuantityDto> productList = orderDto.getProducts();
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user with id: " + id);
         }
         User user = userOptional.get();
         Order order = new Order(LocalDateTime.now(), user);
-        order.setProducts(productList);
-        return orderRepository.save(order);
+        order = orderRepository.save(order);
+        for (ProductQuantityDto productEntry : productList) {
+            Product product = productEntry.getProduct();
+            long quantity = productEntry.getQuantity();
+            OrderProduct orderProduct = new OrderProduct(order, product, quantity);
+            order.getOrderProduct().add(orderProduct);
+            product.getOrderProduct().add(orderProduct);
+            orderProductRepository.save(orderProduct);
+        }
+        return order;
     }
 
     @Override
