@@ -7,7 +7,10 @@ import com.example.foodie.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.util.List;
 
@@ -21,9 +24,12 @@ public class ProductController {
     }
 
     @GetMapping
-    @Operation(summary = "Get all products")
-    List<Product> findAll() {
-        return productService.findAll();
+    @Operation(summary = "Get all products (as stream)")
+    ResponseEntity<StreamingResponseBody> findAll() {
+        StreamingResponseBody responseBody = productService::findAllAsStream;
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(responseBody);
     }
 
     @GetMapping("/{id}")
@@ -36,10 +42,14 @@ public class ProductController {
     }
 
     @GetMapping("/search/{name}")
-    @Operation(summary = "Get the products by name")
-    List<Product> getByName(@Parameter(description = "product name")
-                            @PathVariable String name) {
-        return productService.getByName(name);
+    @Operation(summary = "Get the products by name (as stream)")
+    ResponseEntity<StreamingResponseBody> getByName(@Parameter(description = "product name")
+                                                    @PathVariable String name) {
+        StreamingResponseBody responseBody = outputStream ->
+                productService.findProductByNameStream(name, outputStream);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(responseBody);
     }
 
     @GetMapping("/category/{name}")

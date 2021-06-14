@@ -68,4 +68,8 @@ public class CategoryService implements ServiceTemplate<Category, Long, String> 
     public List<Category> findByName(String name) {
         return categoryRepository.findCategoryByName(name);
     }
+
+    public boolean existsAny() {
+        return categoryRepository.existsAnyCategory();
+    }
 }

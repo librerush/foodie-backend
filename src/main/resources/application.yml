@@ -4,6 +4,9 @@ logging:
   level:
     web: "info"
 management:
+  trace:
+    http:
+      include: RESPONSE_HEADERS
   endpoints:
     web:
       exposure:

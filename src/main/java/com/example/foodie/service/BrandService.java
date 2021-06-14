@@ -71,4 +71,8 @@ public class BrandService implements ServiceTemplate<Brand, Long, BrandDto> {
     public List<Brand> findByName(String name) {
         return brandRepository.findBrandByName(name);
     }
+
+    public boolean existsAny() {
+        return brandRepository.existsAnyBrand();
+    }
 }

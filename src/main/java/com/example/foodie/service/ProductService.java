@@ -8,14 +8,19 @@ import com.example.foodie.entity.Product;
 import com.example.foodie.repository.BrandRepository;
 import com.example.foodie.repository.CategoryRepository;
 import com.example.foodie.repository.ProductRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class ProductService implements ServiceTemplate<Product, Long, ProductDto>  {
@@ -89,9 +94,10 @@ public class ProductService implements ServiceTemplate<Product, Long, ProductDto
         return productRepository.findAll();
     }
 
-    @Transactional
-    public List<Product> getByName(String name) {
-        return productRepository.findProductByName(name);
+    @Transactional(readOnly = true)
+    public void findAllAsStream(OutputStream outputStream) {
+        Stream<Product> productStream = productRepository.findAllAsStream();
+        writeToOutputStream(outputStream, productStream);
     }
 
     @Transactional
@@ -110,5 +116,33 @@ public class ProductService implements ServiceTemplate<Product, Long, ProductDto
             return new ArrayList<>();
         }
         return productRepository.findProductByBrand(brands.get(0));
+    }
+
+    public boolean existsAny() {
+        return productRepository.existsAnyProduct();
+    }
+
+    @Transactional(readOnly = true)
+    public void findProductByNameStream(String name, OutputStream outputStream) {
+        Stream<Product> stream = productRepository.findProductByName(name);
+        writeToOutputStream(outputStream, stream);
+    }
+
+    public void writeToOutputStream(OutputStream outputStream, Stream<Product> stream) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        stream.forEach(product -> {
+            try {
+                String json = String.format("%s\n", objectMapper.writeValueAsString(product));
+                outputStream.write(json.getBytes(StandardCharsets.UTF_8));
+                outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

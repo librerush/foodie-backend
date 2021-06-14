@@ -19,7 +19,7 @@ public class ImageController {
 
     @GetMapping(value = "/{path}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    @Operation(summary = "Get an image by 'path'")
+    @Operation(hidden = true, summary = "Get an image by 'path'")
     @ApiResponse(responseCode = "200", description = "OK")
     @ApiResponse(responseCode = "404", description = "Image not found")
     public @ResponseBody byte[] getImageAsResource(@PathVariable String path) {
@@ -27,7 +27,7 @@ public class ImageController {
     }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @Operation(summary = "Upload a file to storage")
+    @Operation(hidden = true, summary = "Upload a file to storage")
     @ApiResponse(responseCode = "200", description = "OK")
     @ApiResponse(responseCode = "400", description = "Bad request")
     public @ResponseBody String uploadImage(@RequestBody MultipartFile multipartFile) {
