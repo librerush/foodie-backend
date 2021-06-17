@@ -25,4 +25,4 @@ spring:
     user: "foodie"
     password: "qwerty"
   jpa:
-    show-sql: true
+    show-sql: false

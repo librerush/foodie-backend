@@ -10,12 +10,12 @@ CREATE TABLE IF NOT EXISTS category (
 
 CREATE TABLE IF NOT EXISTS product (
     id BIGSERIAL PRIMARY KEY,
-    name varchar(1024) not null,
+    name varchar(2048) not null,
     price float,
     brand_id BIGSERIAL references brand(id),
     category_id BIGSERIAL references category(id),
-    description varchar(2048),
-    image varchar(2048)
+    description varchar(32768),
+    image varchar(4096)
 );
 
 CREATE TABLE IF NOT EXISTS users (

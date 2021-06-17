@@ -15,7 +15,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(length = 1024)
+    @Column(length = 2048)
     private String name;
 
     private double price;
@@ -34,10 +34,10 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<OrderProduct> orderProduct = new HashSet<>();
 
-    @Column(length = 2048)
+    @Column(length = 32768)
     private String description;
 
-    @Column(length = 2048)
+    @Column(length = 4096)
     private String image;
 
     public Product() {
