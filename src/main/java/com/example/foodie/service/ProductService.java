@@ -124,8 +124,13 @@ public class ProductService implements ServiceTemplate<Product, Long, ProductDto
 
     @Transactional(readOnly = true)
     public void findProductByNameStream(String name, OutputStream outputStream) {
-        Stream<Product> stream = productRepository.findProductByName(name);
+        Stream<Product> stream = productRepository.findProductByNameAsStream(name);
         writeToOutputStream(outputStream, stream);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Product> findProductsByName(String name) {
+        return productRepository.findProductByName(name);
     }
 
     public void writeToOutputStream(OutputStream outputStream, Stream<Product> stream) {

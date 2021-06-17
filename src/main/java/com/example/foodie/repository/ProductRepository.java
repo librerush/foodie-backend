@@ -15,7 +15,10 @@ public interface ProductRepository
         extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE CONCAT('%', LOWER(?1) , '%')")
-    Stream<Product> findProductByName(String name);
+    Stream<Product> findProductByNameAsStream(String name);
+
+    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE CONCAT('%', LOWER(?1) , '%')")
+    List<Product> findProductByName(String name);
 
     @Query("select p from Product p")
     Stream<Product> findAllAsStream();
