@@ -133,6 +133,11 @@ public class ProductService implements ServiceTemplate<Product, Long, ProductDto
         return productRepository.findProductByName(name);
     }
 
+    @Transactional(readOnly = true)
+    public List<Product> findBySet(List<Long> ids) {
+        return productRepository.findBySet(ids);
+    }
+
     public void writeToOutputStream(OutputStream outputStream, Stream<Product> stream) {
         ObjectMapper objectMapper = new ObjectMapper();
         stream.forEach(product -> {

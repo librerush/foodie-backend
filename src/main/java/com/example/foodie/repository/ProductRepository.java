@@ -29,4 +29,7 @@ public interface ProductRepository
 
     @Query("select case when count(p) > 0 then true else false end from Product p")
     boolean existsAnyProduct();
+
+    @Query("select p from Product p where p.id in :ids")
+    List<Product> findBySet(List<Long> ids);
 }

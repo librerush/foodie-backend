@@ -74,4 +74,10 @@ public class ProductController {
                      @PathVariable Long id) {
         return productService.deleteById(id);
     }
+
+    @PostMapping("/set/")
+    @Operation(summary = "Find a set products")
+    List<Product> findBySet(@RequestBody List<Long> ids) {
+        return productService.findBySet(ids);
+    }
 }
